@@ -121,10 +121,10 @@ endef
 # - quiet_cmd_foo is the brief-output summary of the command.
 
 quiet_cmd_cc = CC($(TOOLSET)) $@
-cmd_cc = $(CC.$(TOOLSET)) $(GYP_CFLAGS) $(DEPFLAGS) $(CFLAGS.$(TOOLSET)) -c -o $@ $<
+cmd_cc = $(CC.$(TOOLSET)) -o $@ $< $(GYP_CFLAGS) $(DEPFLAGS) $(CFLAGS.$(TOOLSET)) -c
 
 quiet_cmd_cxx = CXX($(TOOLSET)) $@
-cmd_cxx = $(CXX.$(TOOLSET)) $(GYP_CXXFLAGS) $(DEPFLAGS) $(CXXFLAGS.$(TOOLSET)) -c -o $@ $<
+cmd_cxx = $(CXX.$(TOOLSET)) -o $@ $< $(GYP_CXXFLAGS) $(DEPFLAGS) $(CXXFLAGS.$(TOOLSET)) -c
 
 quiet_cmd_objc = CXX($(TOOLSET)) $@
 cmd_objc = $(CC.$(TOOLSET)) $(GYP_OBJCFLAGS) $(DEPFLAGS) -c -o $@ $<
@@ -159,7 +159,7 @@ cmd_touch = touch $@
 
 quiet_cmd_copy = COPY $@
 # send stderr to /dev/null to ignore messages when linking directories.
-cmd_copy = rm -rf "$@" && cp -af "$<" "$@"
+cmd_copy = ln -f "$<" "$@" 2>/dev/null || (rm -rf "$@" && cp -af "$<" "$@")
 
 quiet_cmd_alink = LIBTOOL-STATIC $@
 cmd_alink = rm -f $@ && ./gyp-mac-tool filter-libtool libtool $(GYP_LIBTOOLFLAGS) -static -o $@ $(filter %.o,$^)
@@ -336,8 +336,8 @@ ifeq ($(strip $(foreach prefix,$(NO_LOAD),\
 endif
 
 quiet_cmd_regen_makefile = ACTION Regenerating $@
-cmd_regen_makefile = cd $(srcdir); /Users/pierreraii/.nvm/versions/node/v10.16.0/lib/node_modules/npm/node_modules/node-gyp/gyp/gyp_main.py -fmake --ignore-environment "--toplevel-dir=." -I/Users/pierreraii/Sites/OSS/electron-media-service/build/config.gypi -I/Users/pierreraii/.nvm/versions/node/v10.16.0/lib/node_modules/npm/node_modules/node-gyp/addon.gypi -I/Users/pierreraii/Library/Caches/node-gyp/10.16.0/include/node/common.gypi "--depth=." "-Goutput_dir=." "--generator-output=build" "-Dlibrary=shared_library" "-Dvisibility=default" "-Dnode_root_dir=/Users/pierreraii/Library/Caches/node-gyp/10.16.0" "-Dnode_gyp_dir=/Users/pierreraii/.nvm/versions/node/v10.16.0/lib/node_modules/npm/node_modules/node-gyp" "-Dnode_lib_file=/Users/pierreraii/Library/Caches/node-gyp/10.16.0/<(target_arch)/node.lib" "-Dmodule_root_dir=/Users/pierreraii/Sites/OSS/electron-media-service" "-Dnode_engine=v8" binding.gyp
-Makefile: $(srcdir)/binding.gyp $(srcdir)/../../../Library/Caches/node-gyp/10.16.0/include/node/common.gypi $(srcdir)/node_modules/node-addon-api/src/node_api.gyp $(srcdir)/build/config.gypi $(srcdir)/../../../.nvm/versions/node/v10.16.0/lib/node_modules/npm/node_modules/node-gyp/addon.gypi
+cmd_regen_makefile = cd $(srcdir); /Users/pierreraii/.nvm/versions/node/v10.20.1/lib/node_modules/node-gyp/gyp/gyp_main.py -fmake --ignore-environment "--toplevel-dir=." -I/Users/pierreraii/Sites/OSS/electron-media-service/build/config.gypi -I/Users/pierreraii/.nvm/versions/node/v10.20.1/lib/node_modules/node-gyp/addon.gypi -I/Users/pierreraii/Library/Caches/node-gyp/12.16.1/include/node/common.gypi "--depth=." "-Goutput_dir=." "--generator-output=build" "-Dlibrary=shared_library" "-Dvisibility=default" "-Dnode_root_dir=/Users/pierreraii/Library/Caches/node-gyp/12.16.1" "-Dnode_gyp_dir=/Users/pierreraii/.nvm/versions/node/v10.20.1/lib/node_modules/node-gyp" "-Dnode_lib_file=/Users/pierreraii/Library/Caches/node-gyp/12.16.1/<(target_arch)/node.lib" "-Dmodule_root_dir=/Users/pierreraii/Sites/OSS/electron-media-service" "-Dnode_engine=v8" binding.gyp
+Makefile: $(srcdir)/binding.gyp $(srcdir)/../../../Library/Caches/node-gyp/12.16.1/include/node/common.gypi $(srcdir)/node_modules/node-addon-api/src/node_api.gyp $(srcdir)/build/config.gypi $(srcdir)/../../../.nvm/versions/node/v10.20.1/lib/node_modules/node-gyp/addon.gypi
 	$(call do_cmd,regen_makefile)
 
 # "all" is a concatenation of the "all" targets from all the included
