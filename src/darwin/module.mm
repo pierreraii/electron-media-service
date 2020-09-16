@@ -15,4 +15,4 @@ NAN_MODULE_INIT(InitAddon) {
       Nan::New("DarwinMediaService").ToLocalChecked(), Nan::GetFunction(tpl).ToLocalChecked());
 }
 
-NODE_MODULE(addon, InitAddon)
+NAN_MODULE_WORKER_ENABLED(addon, InitAddon)
