@@ -1,6 +1,6 @@
 {
   "name": "electron-media-service",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "OS Media Service integration for Electron apps",
   "main": "src/index.js",
   "author": "Samuel Attard",
@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "bindings": "^1.5.0",
-    "nan": "^2.14.0",
+    "node-addon-api": "^1.7.1",
     "semver": "^7.3.2"
   },
   "scripts": {
