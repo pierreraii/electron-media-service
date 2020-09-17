@@ -3,7 +3,9 @@ const { EventEmitter } = require('events');
 class NullService extends EventEmitter {
   startService() {}
   stopService() {}
-  isStarted() { return false; }
+  isStarted() {
+    return false;
+  }
   setMetaData() {}
 }
 

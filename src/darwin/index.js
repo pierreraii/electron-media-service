@@ -1,7 +1,7 @@
-const { DarwinMediaService } = require("bindings")(
-  "electron_media_service.node"
+const { DarwinMediaService } = require('bindings')(
+  'electron_media_service.node',
 );
-const { EventEmitter } = require("events");
+const { EventEmitter } = require('events');
 
 class MediaService extends EventEmitter {
   constructor() {
@@ -13,7 +13,7 @@ class MediaService extends EventEmitter {
   _requireStart() {
     if (!this.isStarted()) {
       throw new Error(
-        "This method requires the media service be started before calling"
+        'This method requires the media service be started before calling',
       );
     }
   }
@@ -49,15 +49,15 @@ class MediaService extends EventEmitter {
       state,
       id,
       currentTime / 1000,
-      duration / 1000
+      duration / 1000,
     );
   }
 }
 
 MediaService.STATES = {
-  PLAYING: "playing",
-  PAUSED: "paused",
-  STOPPED: "stopped",
+  PLAYING: 'playing',
+  PAUSED: 'paused',
+  STOPPED: 'stopped',
 };
 
 module.exports = MediaService;
