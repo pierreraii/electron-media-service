@@ -45,15 +45,12 @@ Napi::Object DarwinMediaService::Init(Napi::Env env, Napi::Object exports) {
   return exports;
 }
 
-DarwinMediaService::DarwinMediaService(const Napi::CallbackInfo& info) : Napi::ObjectWrap<DarwinMediaService>(info)  {
+DarwinMediaService::DarwinMediaService(const Napi::CallbackInfo& info) : Napi::ObjectWrap<DarwinMediaService>(info)  {}
 
-}
-
-// static Persistent<Function> persistentCallback;
 static Napi::FunctionReference persistentCallback;
 void DarwinMediaService::Hook(const Napi::CallbackInfo& info) {
   persistentCallback = Napi::Persistent(info[0].As<Napi::Function>());
-  // persistentCallback.SuppressDestruct();
+  persistentCallback.SuppressDestruct();
 }
 
 void DarwinMediaService::Emit(std::string eventName) {
@@ -67,8 +64,6 @@ void DarwinMediaService::EmitWithInt(std::string eventName, int details) {
       Napi::Number::New(persistentCallback.Env(), details)
     });
   }
-
-
 }
 
 void DarwinMediaService::StartService(const Napi::CallbackInfo& info) {
@@ -91,7 +86,7 @@ void DarwinMediaService::StartService(const Napi::CallbackInfo& info) {
   [[remoteCommandCenter previousTrackCommand] addTarget:controller action:@selector(remotePrev)];
 }
 
-void DarwinMediaService::StopService(const Napi::CallbackInfo& info) {  
+void DarwinMediaService::StopService(const Napi::CallbackInfo& info) {
   MPRemoteCommandCenter *remoteCommandCenter = [MPRemoteCommandCenter sharedCommandCenter];
   [remoteCommandCenter playCommand].enabled = false;
   [remoteCommandCenter pauseCommand].enabled = false;
