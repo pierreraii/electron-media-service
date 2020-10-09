@@ -1,7 +1,6 @@
 #include "module.h"
 #include "napi.h"
 #include "uv.h"
-#include <iostream>
 #import <AppKit/AppKit.h>
 
 @implementation NativeMediaController
@@ -60,6 +59,7 @@ void DarwinMediaService::Emit(std::string eventName) {
 
 void DarwinMediaService::EmitWithInt(std::string eventName, int details) {
   if (persistentCallback != nullptr) {
+    Napi::HandleScope scope(persistentCallback.Env());
     persistentCallback.Call({
       Napi::String::New(persistentCallback.Env(), eventName.c_str()),
       Napi::Number::New(persistentCallback.Env(), details)
