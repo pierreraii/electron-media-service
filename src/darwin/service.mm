@@ -50,6 +50,7 @@ DarwinMediaService::DarwinMediaService(const Napi::CallbackInfo& info) : Napi::O
 static Napi::FunctionReference persistentCallback;
 void DarwinMediaService::Hook(const Napi::CallbackInfo& info) {
   Napi::HandleScope scope(info.Env());
+
   persistentCallback = Napi::Persistent(info[0].As<Napi::Function>());
   persistentCallback.SuppressDestruct();
 }
@@ -61,6 +62,7 @@ void DarwinMediaService::Emit(std::string eventName) {
 void DarwinMediaService::EmitWithInt(std::string eventName, int details) {
   if (persistentCallback != nullptr) {
     Napi::HandleScope scope(persistentCallback.Env());
+
     persistentCallback.Call({
       Napi::String::New(persistentCallback.Env(), eventName.c_str()),
       Napi::Number::New(persistentCallback.Env(), details)
@@ -69,6 +71,8 @@ void DarwinMediaService::EmitWithInt(std::string eventName, int details) {
 }
 
 void DarwinMediaService::StartService(const Napi::CallbackInfo& info) {
+  Napi::HandleScope scope(info.Env());
+
   NativeMediaController* controller = [[NativeMediaController alloc] init];
   [controller associateService:this];
 
