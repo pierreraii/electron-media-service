@@ -18,11 +18,9 @@ class DarwinMediaService : public Napi::ObjectWrap<DarwinMediaService> {
  private:
   static Napi::FunctionReference constructor;
   std::string queryString_;
-
 };
 
-@interface NativeMediaController : NSObject {
-}
+@interface NativeMediaController : NSObject { }
 - (void)associateService:(DarwinMediaService*)service;
 @end
 

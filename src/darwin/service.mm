@@ -49,6 +49,7 @@ DarwinMediaService::DarwinMediaService(const Napi::CallbackInfo& info) : Napi::O
 
 static Napi::FunctionReference persistentCallback;
 void DarwinMediaService::Hook(const Napi::CallbackInfo& info) {
+  Napi::HandleScope scope(info.Env());
   persistentCallback = Napi::Persistent(info[0].As<Napi::Function>());
   persistentCallback.SuppressDestruct();
 }
@@ -68,8 +69,6 @@ void DarwinMediaService::EmitWithInt(std::string eventName, int details) {
 }
 
 void DarwinMediaService::StartService(const Napi::CallbackInfo& info) {
-  Napi::HandleScope scope(info.Env());
-
   NativeMediaController* controller = [[NativeMediaController alloc] init];
   [controller associateService:this];
 
@@ -90,8 +89,6 @@ void DarwinMediaService::StartService(const Napi::CallbackInfo& info) {
 }
 
 void DarwinMediaService::StopService(const Napi::CallbackInfo& info) {
-  Napi::HandleScope scope(info.Env());
-
   MPRemoteCommandCenter *remoteCommandCenter = [MPRemoteCommandCenter sharedCommandCenter];
   [remoteCommandCenter playCommand].enabled = false;
   [remoteCommandCenter pauseCommand].enabled = false;
@@ -100,8 +97,6 @@ void DarwinMediaService::StopService(const Napi::CallbackInfo& info) {
 }
 
 void DarwinMediaService::SetMetaData(const Napi::CallbackInfo& info) {
-  Napi::HandleScope scope(info.Env());
-  
   std::string songTitle = info[0].As<Napi::String>().Utf8Value().c_str();
   std::string songArtist = info[1].As<Napi::String>().Utf8Value().c_str();
   std::string songAlbum = info[2].As<Napi::String>().Utf8Value().c_str();
