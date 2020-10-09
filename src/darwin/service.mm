@@ -1,6 +1,7 @@
 #include "module.h"
 #include "napi.h"
 #include "uv.h"
+#include <iostream>
 #import <AppKit/AppKit.h>
 
 @implementation NativeMediaController
