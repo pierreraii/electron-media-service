@@ -89,6 +89,8 @@ void DarwinMediaService::StartService(const Napi::CallbackInfo& info) {
 }
 
 void DarwinMediaService::StopService(const Napi::CallbackInfo& info) {
+  Napi::HandleScope scope(info.Env());
+
   MPRemoteCommandCenter *remoteCommandCenter = [MPRemoteCommandCenter sharedCommandCenter];
   [remoteCommandCenter playCommand].enabled = false;
   [remoteCommandCenter pauseCommand].enabled = false;
@@ -97,6 +99,8 @@ void DarwinMediaService::StopService(const Napi::CallbackInfo& info) {
 }
 
 void DarwinMediaService::SetMetaData(const Napi::CallbackInfo& info) {
+  Napi::HandleScope scope(info.Env());
+
   std::string songTitle = info[0].As<Napi::String>().Utf8Value().c_str();
   std::string songArtist = info[1].As<Napi::String>().Utf8Value().c_str();
   std::string songAlbum = info[2].As<Napi::String>().Utf8Value().c_str();
