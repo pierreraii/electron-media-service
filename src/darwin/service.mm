@@ -10,14 +10,15 @@
   _service = service;
 }
 
-- (MPRemoteCommandHandlerStatus)remotePlay { _service->Emit("play"); }
-- (MPRemoteCommandHandlerStatus)remotePause { _service->Emit("pause"); }
-- (MPRemoteCommandHandlerStatus)remoteTogglePlayPause { _service->Emit("playPause"); }
-- (MPRemoteCommandHandlerStatus)remoteNext { _service->Emit("next"); }
-- (MPRemoteCommandHandlerStatus)remotePrev { _service->Emit("previous"); }
+- (MPRemoteCommandHandlerStatus)remotePlay { _service->Emit("play"); return MPRemoteCommandHandlerStatusSuccess; }
+- (MPRemoteCommandHandlerStatus)remotePause { _service->Emit("pause"); return MPRemoteCommandHandlerStatusSuccess; }
+- (MPRemoteCommandHandlerStatus)remoteTogglePlayPause { _service->Emit("playPause"); return MPRemoteCommandHandlerStatusSuccess; }
+- (MPRemoteCommandHandlerStatus)remoteNext { _service->Emit("next"); return MPRemoteCommandHandlerStatusSuccess; }
+- (MPRemoteCommandHandlerStatus)remotePrev { _service->Emit("previous"); return MPRemoteCommandHandlerStatusSuccess; }
 
 - (MPRemoteCommandHandlerStatus)remoteChangePlaybackPosition:(MPChangePlaybackPositionCommandEvent*)event {
   _service->EmitWithInt("seek", event.positionTime);
+  return MPRemoteCommandHandlerStatusSuccess;
 }
 
 - (MPRemoteCommandHandlerStatus)move:(MPChangePlaybackPositionCommandEvent*)event {
@@ -67,8 +68,6 @@ void DarwinMediaService::EmitWithInt(std::string eventName, int details) {
       Napi::String::New(persistentCallback.Env(), eventName.c_str()),
       Napi::Number::New(persistentCallback.Env(), details)
     });
-
-    return MPRemoteCommandHandlerStatusSuccess;
   }
 }
 
