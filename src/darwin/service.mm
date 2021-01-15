@@ -10,11 +10,26 @@
   _service = service;
 }
 
-- (MPRemoteCommandHandlerStatus)remotePlay { _service->Emit("play"); return MPRemoteCommandHandlerStatusSuccess; }
-- (MPRemoteCommandHandlerStatus)remotePause { _service->Emit("pause"); return MPRemoteCommandHandlerStatusSuccess; }
-- (MPRemoteCommandHandlerStatus)remoteTogglePlayPause { _service->Emit("playPause"); return MPRemoteCommandHandlerStatusSuccess; }
-- (MPRemoteCommandHandlerStatus)remoteNext { _service->Emit("next"); return MPRemoteCommandHandlerStatusSuccess; }
-- (MPRemoteCommandHandlerStatus)remotePrev { _service->Emit("previous"); return MPRemoteCommandHandlerStatusSuccess; }
+- (MPRemoteCommandHandlerStatus)remotePlay {
+    _service->Emit("play");
+    return MPRemoteCommandHandlerStatusSuccess;
+  }
+- (MPRemoteCommandHandlerStatus)remotePause {
+    _service->Emit("pause");
+    return MPRemoteCommandHandlerStatusSuccess;
+  }
+- (MPRemoteCommandHandlerStatus)remoteTogglePlayPause {
+    _service->Emit("playPause");
+    return MPRemoteCommandHandlerStatusSuccess;
+  }
+- (MPRemoteCommandHandlerStatus)remoteNext {
+    _service->Emit("next");
+    return MPRemoteCommandHandlerStatusSuccess;
+  }
+- (MPRemoteCommandHandlerStatus)remotePrev {
+    _service->Emit("previous");
+    return MPRemoteCommandHandlerStatusSuccess;
+  }
 
 - (MPRemoteCommandHandlerStatus)remoteChangePlaybackPosition:(MPChangePlaybackPositionCommandEvent*)event {
   _service->EmitWithInt("seek", event.positionTime);
