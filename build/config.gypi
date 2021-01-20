@@ -80,7 +80,7 @@
     "registry": "https://registry.npmjs.org/",
     "version_commit_hooks": "true",
     "bin_links": "true",
-    "node_gyp": "/Users/pierreraii/.nvm/versions/node/v10.20.1/lib/node_modules/node-gyp/bin/node-gyp.js",
+    "node_gyp": "/Users/pierreraii/.nvm/versions/node/v12.16.1/lib/node_modules/node-gyp/bin/node-gyp.js",
     "save_prefix": "^",
     "strict_ssl": "true",
     "version_git_message": "v%s",
