@@ -130,21 +130,37 @@ void DarwinMediaService::SetMetaData(const Napi::CallbackInfo& info) {
   unsigned int currentTime = info[5].As<Napi::Number>();
   unsigned int duration = info[6].As<Napi::Number>();
 
+  std::string artwork = info[7].As<Napi::String>().Utf8Value().c_str();  
+
   NSMutableDictionary *songInfo = [[NSMutableDictionary alloc] init];
-  [songInfo setObject:[NSString stringWithUTF8String:songTitle.c_str()] forKey:MPMediaItemPropertyTitle];
+  // [songInfo setObject:[NSString stringWithUTF8String:songTitle.c_str()] forKey:MPMediaItemPropertyTitle];
+  [songInfo setObject:@"Some shfajhfjakshfksa" forKey:MPMediaItemPropertyTitle];
   [songInfo setObject:[NSString stringWithUTF8String:songArtist.c_str()] forKey:MPMediaItemPropertyArtist];
   [songInfo setObject:[NSString stringWithUTF8String:songAlbum.c_str()] forKey:MPMediaItemPropertyAlbumTitle];
-  [songInfo setObject:[NSNumber numberWithFloat:currentTime] forKey:MPNowPlayingInfoPropertyElapsedPlaybackTime];
-  [songInfo setObject:[NSNumber numberWithFloat:duration] forKey:MPMediaItemPropertyPlaybackDuration];
+
+  [songInfo setObject:[[MPMediaItemArtwork alloc] initWithBoundsSize:CGSizeMake(512, 512) requestHandler:^NSImage * _Nonnull(CGSize size) {
+    NSString *urlString = [NSString stringWithUTF8String:artwork.c_str()];
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSImage *image = [[NSImage alloc] initWithContentsOfURL:url];
+    NSLog(@"%@", image);
+    return image;
+  }] forKey:MPMediaItemPropertyArtwork];
+  
+  [songInfo setObject:[NSNumber numberWithFloat:0.5] forKey:MPNowPlayingInfoPropertyElapsedPlaybackTime];
+  [songInfo setObject:[NSNumber numberWithFloat:5] forKey:MPMediaItemPropertyPlaybackDuration];
   [songInfo setObject:[NSNumber numberWithFloat:songID] forKey:MPMediaItemPropertyPersistentID];
 
-  if (songState == "playing") {
+  if (songState == "playi1ng") {
     [MPNowPlayingInfoCenter defaultCenter].playbackState = MPNowPlayingPlaybackStatePlaying;
-  } else if (songState == "paused") {
+  } else if (songState == "playing") {
     [MPNowPlayingInfoCenter defaultCenter].playbackState = MPNowPlayingPlaybackStatePaused;
   } else {
     [MPNowPlayingInfoCenter defaultCenter].playbackState = MPNowPlayingPlaybackStateStopped;
   }
 
+  NSLog(@"%@", [[MPNowPlayingInfoCenter defaultCenter] nowPlayingInfo]);
+
   [[MPNowPlayingInfoCenter defaultCenter] setNowPlayingInfo:songInfo];
+
+  NSLog(@"%@", [[MPNowPlayingInfoCenter defaultCenter] nowPlayingInfo]);
 }
